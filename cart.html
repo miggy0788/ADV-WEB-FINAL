@@ -11,35 +11,36 @@
 
 <body>
   
-       <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
-			<a href="index.html" class="navbar-brand px-lg-4 m-0">
-				<img src="img/LOGO FOR REAL.png" alt="FOR REAL Logo" class="logo">
-			</a>
-			<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-				<div class="navbar-nav ml-auto p-4">
-					<a href="index.html" class="nav-item nav-link active">Home</a>
-					<a href="about.html" class="nav-item nav-link">About</a>
-					<a href="menu.html" class="nav-item nav-link">Menu</a>
-					<a href="contact.html" class="nav-item nav-link">Contact</a>
-					<a href="cart.html" class="nav-item nav-link">Cart</a>
-				</div>
-			</div>
-		</nav>
-  	
-    <div class="container-fluid page-header mb-5 position-relative overlay-bottom">
+    <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+        <a href="index.html" class="navbar-brand px-lg-4 m-0">
+            <img src="img/LOGO FOR REAL.png" alt="FOR REAL Logo" class="logo">
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav ml-auto p-4">
+                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="menu.html" class="nav-item nav-link">Menu</a>
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="cart.html" class="nav-item nav-link">Cart</a>
+            </div>
+        </div>
+    </nav>
+  
+    <div class="container-fluid page-header mb-5 position-relative overlay-bottom" style="background-image: url(/img/bg.jpg);">
         <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style="min-height: 400px">
-            <h1 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase">Menu</h1>
+            <h1 class="display-4 mb-3 mt-0 mt-lg-5 text-uppercase" style="color: white;">Cart</h1>
             <div class="d-inline-flex mb-lg-5">
-                <p class="m-0 text-white"><a class="text-white" href="">Home</a></p>
-                <p class="m-0 text-white px-2">/</p>
-                <p class="m-0 text-white">Menu</p>
+                <p class="m-0"><a href="" style="color: white !important;">Home</a></p>
+                <p class="m-0 px-2" style="color: white !important;">/</p>
+                <p class="m-0" style="color: white;">Cart</p>
             </div>
         </div>
     </div>
-    <!-- Menu Start -->
+
+    <!-- Shopping Cart -->
     <div class="container mt-5">
         <h2>Shopping Cart</h2>
         <ul id="cart-items" class="list-group"></ul>
@@ -54,20 +55,43 @@
 
             var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-      
             var cartList = $('#cart-items');
-            cartItems.forEach(function(item) {
+            cartItems.forEach(function(item, index) {
                 var listItem = $('<li>').addClass('list-group-item');
                 var img = $('<img>').attr('src', item.imageUrl).addClass('mr-3').css('width', '50px').css('height', 'auto');    
                 var itemDetails = $('<div>').addClass('d-flex justify-content-between align-items-center').append(
-                    $('<div>').append(img).append(item.name + ' x' + item.quantity),
+                    $('<div>').append(img).append(item.name),
+                    $('<div>').append(
+                        $('<button>').addClass('btn btn-sm btn-secondary mr-2').text('-').click(function() {
+                         
+                            if (item.quantity > 1) {
+                                item.quantity--;
+                                updateCart();
+                            }
+                        }),
+                        $('<span>').text(item.quantity),
+                        $('<button>').addClass('btn btn-sm btn-secondary ml-2').text('+').click(function() {
+                           
+                            item.quantity++;
+                            updateCart();
+                        }),
+                        $('<button>').addClass('btn btn-sm btn-danger ml-2').text('Delete').click(function() {
+                          
+                            cartItems.splice(index, 1);
+                            updateCart();
+                        })
+                    ),
                     $('<span>').text('₱' + (item.price * item.quantity).toFixed(2)) 
                 );
                 listItem.append(itemDetails);
                 cartList.append(listItem);
             });
 
-  
+            function updateCart() {
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                location.reload(); 
+            }
+
             var totalPrice = 0;
             cartItems.forEach(function(item) {
                 totalPrice += item.price * item.quantity; 
@@ -75,9 +99,8 @@
             $('#total-price span').text('₱' + totalPrice.toFixed(2));
         });
     </script>
-    <!-- Menu End -->
 
-
+    <!-- Footer -->
     <div class="container-fluid footer text-white mt-5 pt-5 px-0 position-relative overlay-top">
         <div class="row mx-0 pt-5 px-sm-3 px-lg-5 mt-4">
             <div class="col-lg-3 col-md-6 mb-5">
@@ -86,7 +109,6 @@
                 <p><i class="fa fa-phone-alt mr-2"></i>8-7000</p>
                 <p class="m-0"><i class="fa fa-envelope mr-2"></i>for-real@fit.ph</p>
             </div>
-
             <div class="col-lg-6 col-md-6 mb-6">
                 <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Open Hours</h4>
                 <div>
@@ -98,15 +120,7 @@
             </div>
         </div>
     </div>
-
-
-
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    
     <script src="js/main.js"></script>
 </body>
 

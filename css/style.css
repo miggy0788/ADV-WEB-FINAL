@@ -61,7 +61,7 @@ body {
   .navbar-toggler {
     border: none;
     color: black !important;
-	z-index: 1001:
+	  z-index: 1001;
   }
   
   .navbar-nav .nav-item .nav-link:hover {
@@ -185,4 +185,6 @@ body {
 	  border-color: #DFB78C;
 	  background-color: #DFB78C;
   }
+
+  
   
